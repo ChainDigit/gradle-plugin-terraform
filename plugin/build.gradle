@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         jcenter()
+        // mavenLocal()
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
@@ -15,6 +16,7 @@ plugins {
 }
 
 group 'dk.danskespil.gradle.plugins'
+version '0.1.1'
 
 apply plugin: 'java'
 
@@ -22,6 +24,7 @@ apply plugin: 'java'
 // https://github.com/ajoberstar/gradle-git/wiki/Release%20Plugins
 // to deploy as maven artifact
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 import org.ajoberstar.gradle.git.release.opinion.Strategies
 
@@ -54,6 +57,17 @@ repositories {
     jcenter()
 }
 
+publishing {
+    repositories {
+        maven {
+            url "s3://cd-maven-repo/build"
+            credentials(AwsCredentials) {
+              accessKey = awsAccessKey
+              secretKey = awsSecretKey
+            }
+        }
+    }
+}
 dependencies {
     compile 'dk.danskespil.gradle.plugins:gradle-task-helpers:0.0.3'
     testCompile 'dk.danskespil.gradle.plugins:gradle-plugin-test-spock-helpers:0.1.2'
