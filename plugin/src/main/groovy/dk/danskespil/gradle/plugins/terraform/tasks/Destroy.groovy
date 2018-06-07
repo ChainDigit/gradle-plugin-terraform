@@ -7,28 +7,21 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecSpec
 
 /**
- * Wraps cli command: terraform apply
+ * Wraps cli command: terraform destroy
  */
-class Apply extends TerraformBaseTask {
-    @Optional
-    @InputFile
-    File plan
-
+class Destroy extends TerraformBaseTask implements TerraformVariables {
     @Optional
     @Input
     boolean autoApprove = false
 
     @TaskAction
     action() {
-        commandLine.addToEnd('terraform', 'apply')
+        commandLine.addToEnd('terraform', 'destroy')
 
         if (autoApprove) {
             commandLine.addToEnd('-auto-approve')
         }
-
-        if (plan) {
-            commandLine.addToEnd(plan.absolutePath)
-        }
+        addVariablesToEnd(commandLine)
 
         executor.executeExecSpec(this, { ExecSpec e ->
             e.commandLine this.commandLine
@@ -38,6 +31,6 @@ class Apply extends TerraformBaseTask {
 
     @Override
     String getDescription() {
-        return """Wraps cli command: terraform apply"""
+        return """Wraps cli command: terraform destroy"""
     }
 }
