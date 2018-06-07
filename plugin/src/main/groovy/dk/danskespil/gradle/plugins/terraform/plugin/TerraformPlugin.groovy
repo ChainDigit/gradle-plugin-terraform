@@ -15,6 +15,7 @@ class TerraformPlugin implements Plugin<Project> {
 
         Get tfGet = project.task(type: Get, 'tfGet')
         Init tfInit = project.task(type: Init, 'tfInit')
+        Destroy tfDestroy = project.task(type: Destroy, 'tfDestroy')
 
         // get does not work without have access to remote resources
         tfGet.dependsOn tfInit

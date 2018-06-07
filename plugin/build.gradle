@@ -16,7 +16,7 @@ plugins {
 }
 
 group 'dk.danskespil.gradle.plugins'
-version '0.1.1'
+version '0.1.2.CD'
 
 apply plugin: 'java'
 
@@ -59,6 +59,7 @@ repositories {
 
 publishing {
     repositories {
+        mavenLocal()
         maven {
             url "s3://cd-maven-repo/build"
             credentials(AwsCredentials) {
